@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modo Leonida — Herramientas de GTA VI en español</title>
+<meta name="description" content="Cuenta regresiva, horarios de desbloqueo por país, calculadora de descarga y tracker de progreso de GTA VI en español.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0b10;--panel:#17141c;--line:#2a2531;--ink:#f4efe9;--mute:#9c94a6;--hot:#ff4f7b;--sun:#ffb347;--sea:#3ad1c6}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:Archivo,system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--sea)}
+.wrap{max-width:880px;margin:0 auto;padding:24px 18px 80px}
+header{display:flex;justify-content:space-between;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.logo{font-weight:800;letter-spacing:.04em;font-size:15px}
+.logo span{background:linear-gradient(90deg,var(--hot),var(--sun));-webkit-background-clip:text;background-clip:text;color:transparent}
+nav{display:flex;gap:14px;font-size:13px}
+nav a{color:var(--mute);text-decoration:none}
+nav a:hover{color:var(--ink)}
+.hero{padding:44px 0 28px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--sun)}
+h1{font-size:clamp(30px,6vw,52px);line-height:1.05;font-weight:800;margin:10px 0 14px}
+.lead{color:var(--mute);max-width:560px}
+.count{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:26px 0 8px}
+.cell{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 8px;text-align:center}
+.num{font-family:'JetBrains Mono',monospace;font-size:clamp(28px,7vw,48px);font-weight:500;background:linear-gradient(180deg,var(--ink),#c9bfd4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lbl{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.1em}
+.note{font-size:12.5px;color:var(--mute)}
+section{margin-top:40px}
+h2{font-size:22px;font-weight:800;margin-bottom:6px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+th{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+td.t{font-family:'JetBrains Mono',monospace;font-size:13px}
+.tag{font-size:10.5px;padding:2px 7px;border-radius:99px;border:1px solid var(--line);color:var(--mute);white-space:nowrap}
+.tag.ok{color:var(--sea);border-color:#1f5f5a}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{font-size:12px;color:var(--mute);display:block;margin-bottom:6px}
+input[type=number]{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:12px;font:500 18px 'JetBrains Mono',monospace}
+.result{margin-top:14px;font-size:15px}
+.result b{font-size:24px;color:var(--sun)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.tab{background:none;border:1px solid var(--line);color:var(--mute);border-radius:99px;padding:7px 14px;font:600 13px Archivo;cursor:pointer}
+.tab.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.item{display:flex;gap:12px;align-items:flex-start;padding:12px 4px;border-bottom:1px solid var(--line);cursor:pointer}
+.item input{margin-top:4px;accent-color:var(--hot);width:18px;height:18px}
+.item.done span{color:var(--mute);text-decoration:line-through}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--hot),var(--sun));transition:width .3s}
+.soon{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.soon div{border:1px dashed var(--line);border-radius:14px;padding:16px;font-size:14px}
+.soon small{display:block;color:var(--mute);font-size:12px;margin-top:4px}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
+@media(max-width:600px){.grid2,.soon{grid-template-columns:1fr}nav{display:none}.count{gap:6px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="logo">MODO <span>LEONIDA</span></div>
+  <nav><a href="#horarios">Horarios</a><a href="#descarga">Descarga</a><a href="#tracker">Tracker</a></nav>
+</header>
+
+<div class="hero">
+  <div class="eyebrow">GTA VI · 19 de noviembre de 2026</div>
+  <h1 id="h1">Faltan horas para Leonida.</h1>
+  <p class="lead">Cuenta regresiva para la tienda de México, horarios por país y herramientas para llegar listo. Todo en español, sin spoilers.</p>
+  <div class="count" id="count">
+    <div class="cell"><div class="num" id="d">--</div><div class="lbl">días</div></div>
+    <div class="cell"><div class="num" id="h">--</div><div class="lbl">horas</div></div>
+    <div class="cell"><div class="num" id="m">--</div><div class="lbl">min</div></div>
+    <div class="cell"><div class="num" id="s">--</div><div class="lbl">seg</div></div>
+  </div>
+  <p class="note">Tienda de México: 00:00 hora del centro (06:00 UTC del 19 nov). En tu reloj: <b id="local">—</b>.</p>
+</div>
+
+<section id="horarios">
+  <h2>¿A qué hora sale en mi país?</h2>
+  <p class="note" style="margin-bottom:12px">El juego se desbloquea a la medianoche local de cada tienda regional. La hora de tu columna se calcula con la zona horaria de tu dispositivo.</p>
+  <div class="card" style="padding:6px 10px">
+    <table>
+      <thead><tr><th>Tienda</th><th>Hora local</th><th>En tu hora</th><th></th></tr></thead>
+      <tbody id="tz"></tbody>
+    </table>
+  </div>
+  <p class="note" style="margin-top:10px">Verificado: México y EE. UU./Canadá (horarios de PlayStation Store reportados por prensa especializada). El resto sigue la regla de medianoche local. Xbox no publica hora por país.</p>
+</section>
+
+<section id="descarga">
+  <h2>¿Cuánto tarda en descargar?</h2>
+  <p class="note" style="margin-bottom:12px">Pon la velocidad que te da tu internet en una prueba de velocidad (Mbps), no la que dice tu contrato.</p>
+  <div class="card">
+    <div class="grid2">
+      <div><label for="gb">Tamaño del juego (GB)</label><input id="gb" type="number" value="212" min="1"></div>
+      <div><label for="mbps">Tu velocidad (Mbps)</label><input id="mbps" type="number" value="50" min="1"></div>
+    </div>
+    <div class="result" id="res"></div>
+    <p class="note" style="margin-top:10px">212 GB es la cifra más citada en prensa, no confirmada en esta página. Ajústala cuando veas el tamaño exacto en tu consola. Se asume 85% de eficiencia real de la conexión.</p>
+  </div>
+</section>
+
+<section id="tracker">
+  <h2>Tracker de progreso</h2>
+  <p class="note">Se guarda en este navegador. Las listas de coleccionables, misiones y negocios se activan conforme se confirmen tras el lanzamiento.</p>
+  <div class="tabs" id="tabs"></div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;font-size:13px"><span id="plabel">Progreso</span><span id="pct">0%</span></div>
+    <div class="bar"><i id="pbar"></i></div>
+    <div id="list" style="margin-top:6px"></div>
+  </div>
+</section>
+
+<section>
+  <h2>Próximamente</h2>
+  <div class="soon">
+    <div>Mapa interactivo<small>Coleccionables, tiendas y actividades.</small></div>
+    <div>Calculadora de negocios<small>Qué conviene comprar primero.</small></div>
+    <div>Base de vehículos<small>Precio, velocidad y dónde encontrarlos.</small></div>
+  </div>
+</section>
+
+<footer>
+  Modo Leonida es un sitio de fans, sin relación con Rockstar Games ni Take-Two Interactive. Grand Theft Auto es marca registrada de Take-Two Interactive. Nunca pidas ni compres "acceso anticipado": no existe.
+</footer>
+</div>
+
+<script>
+const UNLOCK = Date.UTC(2026,10,19,6,0,0); // México: 00:00 CDMX
+const pad = n => String(n).padStart(2,'0');
+const fmt = new Intl.DateTimeFormat('es-MX',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+document.getElementById('local').textContent = fmt.format(new Date(UNLOCK));
+function tick(){
+  let ms = UNLOCK - Date.now();
+  if (ms <= 0){
+    document.getElementById('count').style.display='none';
+    document.getElementById('h1').textContent='Ya puedes jugar en México.';
+    return;
+  }
+  const s=Math.floor(ms/1000);
+  document.getElementById('d').textContent=pad(Math.floor(s/86400));
+  document.getElementById('h').textContent=pad(Math.floor(s%86400/3600));
+  document.getElementById('m').textContent=pad(Math.floor(s%3600/60));
+  document.getElementById('s').textContent=pad(s%60);
+}
+tick(); setInterval(tick,1000);
+
+// Tiendas: [nombre, offset UTC en horas, verificado]
+const STORES = [
+  ['España',1,false],['Brasil (Brasilia)',-3,false],['Argentina',-3,false],['Chile',-3,false],
+  ['Colombia',-5,false],['Perú',-5,false],['EE. UU. y Canadá (00:00 ET)',-5,true],
+  ['México (00:00 CDMX)',-6,true],['Guatemala / C. América',-6,false]
+];
+const tz = document.getElementById('tz');
+STORES.forEach(([n,off,ok])=>{
+  const utc = Date.UTC(2026,10,19,0,0,0) - off*3600000;
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${n}</td><td class="t">19 nov · 00:00</td><td class="t">${fmt.format(new Date(utc))}</td><td><span class="tag ${ok?'ok':''}">${ok?'verificado':'regla'}</span></td>`;
+  tz.appendChild(tr);
+});
+
+// Descarga
+function calc(){
+  const gb=+document.getElementById('gb').value, mb=+document.getElementById('mbps').value;
+  if(!gb||!mb){document.getElementById('res').textContent='';return;}
+  const hrs = (gb*8000)/(mb*0.85)/3600;
+  const h=Math.floor(hrs), m=Math.round((hrs-h)*60);
+  document.getElementById('res').innerHTML=`Aproximadamente <b>${h} h ${m} min</b>`;
+}
+['gb','mbps'].forEach(id=>document.getElementById(id).addEventListener('input',calc)); calc();
+
+// Tracker
+const LISTS = {
+  'Antes de jugar':[
+    'Libera al menos 250 GB en tu consola',
+    'Activa la descarga en modo reposo',
+    'Revisa que tu suscripción online esté activa (PS Plus / Game Pass Core)',
+    'Canjea los bonos de preventa en la tienda',
+    'Desactiva notificaciones de redes para evitar spoilers',
+    'Cable de red en lugar de Wi-Fi si puedes'
+  ],
+  'Historia':[], 'Coleccionables':[], 'Negocios':[]
+};
+let cur='Antes de jugar', state={};
+try{ state=JSON.parse(localStorage.getItem('ml_tracker')||'{}'); }catch(e){}
+const save=()=>{ try{ localStorage.setItem('ml_tracker',JSON.stringify(state)); }catch(e){} };
+function render(){
+  const tabs=document.getElementById('tabs'); tabs.innerHTML='';
+  Object.keys(LISTS).forEach(k=>{
+    const b=document.createElement('button'); b.className='tab'+(k===cur?' on':''); b.textContent=k;
+    b.onclick=()=>{cur=k;render();}; tabs.appendChild(b);
+  });
+  const list=document.getElementById('list'); list.innerHTML='';
+  const items=LISTS[cur];
+  if(!items.length){ list.innerHTML='<p class="note" style="padding:14px 4px">Se activa después del lanzamiento, cuando la información esté confirmada.</p>'; }
+  items.forEach((t,i)=>{
+    const key=cur+'|'+i, done=!!state[key];
+    const row=document.createElement('label'); row.className='item'+(done?' done':'');
+    row.innerHTML=`<input type="checkbox" ${done?'checked':''}><span>${t}</span>`;
+    row.querySelector('input').onchange=e=>{state[key]=e.target.checked;save();render();};
+    list.appendChild(row);
+  });
+  const total=items.length, n=items.filter((_,i)=>state[cur+'|'+i]).length;
+  const p=total?Math.round(n/total*100):0;
+  document.getElementById('pct').textContent=p+'%';
+  document.getElementById('pbar').style.width=p+'%';
+  document.getElementById('plabel').textContent=cur;
+}
+render();
+</script>
+</body>
+</html>
